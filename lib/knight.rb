@@ -2,7 +2,7 @@
 
 # Represents the knight
 class Knight
-  attr_reader :position, :visited, :neighbors
+  attr_reader :position, :path, :neighbors
 
   TRANSFORMATIONS = [
     [1, 2],
@@ -15,28 +15,12 @@ class Knight
     [-2, -1]
   ]
 
-  def initialize(position, visited = [position])
+  def initialize(position, path = [position])
     @position = position
-    @visited = visited
-
-    @neighbors = find_neighbors
+    @path = path
   end
 
   def distance_traveled
-    @visited.length
-  end
-
-  private
-
-  def find_neighbors
-    array = []
-    TRANSFORMATIONS.each do |trans|
-      array << [trans[0] + @position[0], trans[1] + @position[1]]
-    end
-
-    array.keep_if do |neighbor|
-      !@visited.include?(neighbor) &&
-      neighbor.all? { |int| int.between?(0, 7) }
-    end
+    @path.length
   end
 end

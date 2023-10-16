@@ -2,6 +2,8 @@
 
 require 'colorize'
 
+require_relative 'knight'
+
 # Represents the chess board
 class Board
   MATRIX = Board.generate_matrix
@@ -33,6 +35,7 @@ class Board
 
     @start = start
     @target = target
+    @visited_positions = []
   end
 
   def print
@@ -53,9 +56,17 @@ class Board
     end
   end
 
-  def knight_moves()
-    queue = []
-    
-    knight = Knight.new(@start)
+  private
+
+  def find_neighbors_of(position)
+    array = []
+
+    TRANSFORMATIONS.each do |trans|
+      array << [trans[0] + @position[0], trans[1] + @position[1]]
+    end
+
+    array.keep_if do |neighbor|
+      neighbor.all? { |value| value.between?(0, 7) }
+    end
   end
 end

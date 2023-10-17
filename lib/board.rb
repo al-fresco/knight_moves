@@ -11,23 +11,7 @@ class Board
   attr_reader :matrix
 
   def self.generate_matrix
-    x = 0
-    y = 0
-    matrix = []
-
-    64.times do
-      if x == 7
-        matrix << [x, y]
-
-        x, y = 0, y + 1
-      else
-        matrix << [x, y]
-
-        x += 1
-      end
-    end
-
-    matrix
+    [0, 1, 2, 3, 4, 5, 6, 7].repeated_permutation(2).to_a
   end
 
   def initialize(start, target)

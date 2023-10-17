@@ -14,30 +14,9 @@ class Board
     [0, 1, 2, 3, 4, 5, 6, 7].repeated_permutation(2).to_a
   end
 
-  def initialize(start, target)
-    @matrix = MATRIX
-
-    @start = start
-    @target = target
-    @visited_positions = []
-  end
-
-  def print
-    @matrix.each do |position|
-      str = position.to_s
-
-      if position == @start
-        str = str.red
-      elsif position == @target
-        str = str.yellow
-      end
-
-      if position[0] == 7
-        super("#{str}\n")
-      else
-        super("#{str} ")
-      end
-    end
+  # Returns the shortest path from the starting position to the target position
+  def knight_moves
+    # Create a knight 
   end
 
   private

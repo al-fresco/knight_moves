@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-require 'colorize'
-
 require_relative 'knight'
 
-# Represents the chess board
+# Represents the chess board; initializes with an empty of array of visited nodes; contains the #knight_moves method
 class Board
   MATRIX = [0, 1, 2, 3, 4, 5, 6, 7].repeated_permutation(2).to_a
   TRANSFORMATIONS = [
@@ -18,6 +16,25 @@ class Board
     [-2, -1]
   ]
 
+  def initialize
+    @visited_positions = []
+    @knights = []
+  end
+
+  def knight_moves(start_position, target_position, queue = [start_position])
+    # Create knight
+    
+    if position == target_position
+      p "You made it from #{knight.path[0]} to #{knight.path[-1]} in #{knight.count_moves} moves!"
+      p "The path was: #{knight.path}"
+      return
+    else
+      # Queue children, call #knight_moves
+    end
+  end
+
+  private
+
   def find_children_of(position)
     children = []
     
@@ -25,18 +42,18 @@ class Board
       children << [set[0] + position[0], set[1] + position[1]]
     end
 
-    children.reject { |child| !child[0].between?(0, 7) || !child[1].between?(0, 7) }
+    children.reject do |child|
+      child.any? { |coordinate| !coordinate.between?(0, 7) } ||
+      @visited_positions.include?(child)
+    end
   end
 
-  # Returns the shortest path from the starting position to the target position
-  def knight_moves(start_position, target_position)
-    # Create a new Knight at start_position
-    knight = Knight.new
-    # Find children (adjacent positions) of start_position 
-    # Traverse each branch one by one, stopping if the depth is 6 or the target is found
-    # If target is reached, add Knight's path to the Knight class's @@viable_paths attribute
-    # Repeat until all branches have been explored
-
-    # 
+  def find_knight_at(position)
+    @knights.find { |knight| knight.path[-1] == position }
   end
 end
+
+# Breadth-First Traversal
+# Place a new Knight on every square that can be reached from the root (starting square) in one move
+# Push these square coordinates to an array containing visited squares
+# For each of these knights, move a new knight to each of their unvisited children (adjacent squares)

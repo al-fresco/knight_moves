@@ -4,28 +4,18 @@
 class Knight
   attr_reader :position, :path
 
-  TRANSFORMATIONS = [
-    [1, 2],
-    [1, -2],
-    [-1, 2],
-    [-1, -2],
-    [2, 1],
-    [2, -1],
-    [-2, 1],
-    [-2, -1]
-  ]
+  @@viable_paths = []
 
-  def initialize(position, path = [position])
-    @position = position
-    @path = path
+  def initialize(start)
+    @start = start
+    @path = [start]
   end
 
-  def distance_traveled
+  def depth
     @path.length
   end
 
   def move_to(position)
-    @position = position
     @path << position
   end
 end

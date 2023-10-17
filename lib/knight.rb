@@ -2,7 +2,7 @@
 
 # Represents the knight
 class Knight
-  attr_reader :position, :path, :neighbors
+  attr_reader :position, :path
 
   TRANSFORMATIONS = [
     [1, 2],
@@ -22,5 +22,10 @@ class Knight
 
   def distance_traveled
     @path.length
+  end
+
+  def move_to(position)
+    @position = position
+    @path << position
   end
 end

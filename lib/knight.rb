@@ -1,31 +1,18 @@
 # frozen_string_literal: true
 
-# Represents the knight
+# Represents the knight; new knights are initialized with their parent's path
 class Knight
-  attr_reader :position, :path, :current_position
+  attr_reader :path
 
-  @@all_paths = []
-
-  def self.shortest_path
-    @@viable_paths.min_by { |path| path.length }.first
+  def initialize(parent_path = [])
+    @path = parent_path
   end
 
-  def initialize(start)
-    @start = start
-    @current_position = start
-    @path = [start]
-  end
-
-  def depth
-    @path.length - 1
-  end
-
-  def move_to(position)
-    @current_position = position
+  def visit(position)
     @path << position
   end
 
-  def add_path
-    @@all_paths << @path
+  def count_moves
+    @path.length - 1
   end
 end

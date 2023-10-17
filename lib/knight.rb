@@ -2,9 +2,9 @@
 
 # Represents the knight
 class Knight
-  attr_reader :position, :path
+  attr_reader :position, :path, :current_position
 
-  @@viable_paths = []
+  @@all_paths = []
 
   def self.shortest_path
     @@viable_paths.min_by { |path| path.length }.first
@@ -12,6 +12,7 @@ class Knight
 
   def initialize(start)
     @start = start
+    @current_position = start
     @path = [start]
   end
 
@@ -20,10 +21,11 @@ class Knight
   end
 
   def move_to(position)
+    @current_position = position
     @path << position
   end
 
-  def add_viable_path
-    @@viable_paths << @path
+  def add_path
+    @@all_paths << @path
   end
 end

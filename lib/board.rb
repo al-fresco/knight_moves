@@ -16,40 +16,37 @@ class Board
     [-2, -1]
   ]
 
-  def initialize
-    @visited_positions = []
-    @knights = []
-  end
-
-  def knight_moves(start_position, target_position, queue = [start_position])
-    # Create knight
+  def knight_moves(start_position, target_position, queue = [Knight.new(start_position)])
+    knight = queue.shift
     
-    if position == target_position
-      p "You made it from #{knight.path[0]} to #{knight.path[-1]} in #{knight.count_moves} moves!"
+    if knight.path[-1] == target_position
+      p "You made it from #{start_position} to #{target_position} in #{knight.count_moves} moves!"
       p "The path was: #{knight.path}"
       return
     else
-      # Queue children, call #knight_moves
+      child_coordinates = find_adjacent_coordinates(knight)
+      
+      child_coordinates.each do |coordinates|
+        queue << Knight.new(coordinates, knight)
+      end
+
+      knight_moves(start_position, target_position, queue.compact)
     end
   end
 
   private
 
-  def find_children_of(position)
-    children = []
+  def find_adjacent_coordinates(knight)
+    adjacent_coordinates = []
     
     TRANSFORMATIONS.each do |set|
-      children << [set[0] + position[0], set[1] + position[1]]
+      adjacent_coordinates << [set[0] + knight.position[0], set[1] + knight.position[1]]
     end
 
-    children.reject do |child|
-      child.any? { |coordinate| !coordinate.between?(0, 7) } ||
-      @visited_positions.include?(child)
+    adjacent_coordinates.reject do |coordinates|
+      coordinates.any? { |coordinate| !coordinate.between?(0, 7) } ||
+      Knight.visited_positions.include?(coordinates)
     end
-  end
-
-  def find_knight_at(position)
-    @knights.find { |knight| knight.path[-1] == position }
   end
 end
 

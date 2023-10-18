@@ -1,20 +1,31 @@
 # frozen_string_literal: true
 
-# Represents the knight; new knights are initialized with their parent's path
+# Represents the knight; new knights are initialized with their parent
 class Knight
-  attr_accessor :queue
-  attr_reader :path
+  attr_reader :position, :parent
 
-  def initialize(parent_path = [])
-    @path = parent_path
-    @queue = []
+  @@visited_positions = []
+
+  def self.visited_positions
+    @@visited_positions
   end
 
-  def visit(position)
-    @path << position
+  def initialize(position, parent = nil)
+    @position = position
+    @@visited_positions << position
+    
+    @parent = parent
   end
 
   def count_moves
-    @path.length - 1
+    path.length - 1
+  end
+
+  def path
+    unless @parent.nil?
+      @parent.path << @position
+    else
+      [@position]
+    end
   end
 end

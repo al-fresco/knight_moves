@@ -22,7 +22,6 @@ class Board
     if knight.path[-1] == target_position
       p "You made it from #{start_position} to #{target_position} in #{knight.count_moves} moves!"
       p "The path was: #{knight.path}"
-      return
     else
       child_coordinates = find_adjacent_coordinates(knight)
       

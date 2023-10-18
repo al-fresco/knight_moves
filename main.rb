@@ -3,4 +3,4 @@
 require_relative 'lib/board'
 
 board = Board.new
-board.knight_moves([0, 0], [7, 7])
+board.knight_moves([rand(0..7), rand(0..7)], [rand(0..7), rand(0..7)])

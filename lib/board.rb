@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
+require 'colorize'
+
 require_relative 'knight'
 
 # Represents the chess board; initializes with an empty of array of visited nodes; contains the #knight_moves method
 class Board
-  MATRIX = [0, 1, 2, 3, 4, 5, 6, 7].repeated_permutation(2).to_a
   TRANSFORMATIONS = [
     [1, 2],
     [1, -2],
@@ -20,8 +21,8 @@ class Board
     knight = queue.shift
     
     if knight.path[-1] == target_position
-      p "You made it from #{start_position} to #{target_position} in #{knight.count_moves} moves!"
-      p "The path was: #{knight.path}"
+      knight.print_path
+      print_matrix(knight)
     else
       child_coordinates = find_adjacent_coordinates(knight)
       
@@ -35,6 +36,16 @@ class Board
 
   private
 
+  def generate_matrix(x = 0, y = 0, matrix = [])
+    return matrix << [x, y] if [x, y] == [7, 7]
+
+    unless x == 7
+      generate_matrix(x + 1, y, matrix << [x, y])
+    else
+      generate_matrix(0, y + 1, matrix << [x, y])
+    end
+  end
+
   def find_adjacent_coordinates(knight)
     adjacent_coordinates = []
     
@@ -45,6 +56,32 @@ class Board
     adjacent_coordinates.reject do |coordinates|
       coordinates.any? { |coordinate| !coordinate.between?(0, 7) } ||
       Knight.visited_positions.include?(coordinates)
+    end
+  end
+
+  def print_matrix(knight)
+    generate_matrix.each do |position|
+      str = colorize_string(position, knight)
+
+      unless position[0] == 7
+        print "#{str} "
+      else
+        print "#{str}\n"
+      end
+    end
+  end
+
+  def colorize_string(position, knight)
+    str = position.to_s
+
+    if position == knight.path[0]
+      str = str.red
+    elsif position == knight.path[-1]
+      str = str.green
+    elsif knight.path.include?(position)
+      str = str.yellow
+    else
+      str
     end
   end
 end

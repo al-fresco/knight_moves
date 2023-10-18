@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_position_stringing_literal: true
 
 require 'colorize'
 
@@ -22,7 +22,7 @@ class Board
     
     if knight.path[-1] == target_position
       knight.print_path
-      print_matrix(knight)
+      print_colorized_matrix(knight)
     else
       child_coordinates = find_adjacent_coordinates(knight)
       
@@ -59,29 +59,29 @@ class Board
     end
   end
 
-  def print_matrix(knight)
+  def print_colorized_matrix(knight)
     generate_matrix.each do |position|
-      str = colorize_string(position, knight)
+      colorized_position_string = colorize_position(position, knight)
 
       unless position[0] == 7
-        print "#{str} "
+        print "#{colorized_position_string} "
       else
-        print "#{str}\n"
+        print "#{colorized_position_string}\n"
       end
     end
   end
 
-  def colorize_string(position, knight)
-    str = position.to_s
+  def colorize_position(position, knight)
+    position_string = position.to_s
 
     if position == knight.path[0]
-      str = str.red
+      position_string = position_string.red
     elsif position == knight.path[-1]
-      str = str.green
+      position_string = position_string.green
     elsif knight.path.include?(position)
-      str = str.yellow
+      position_string = position_string.yellow
     else
-      str
+      position_string
     end
   end
 end

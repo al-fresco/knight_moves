@@ -17,10 +17,14 @@ class Knight
     @parent = parent
   end
 
-  def count_moves
-    count = (path.length - 1).to_s.yellow
-    return "#{count} move" if count == 1
-    "#{count} moves"
+  def move_count_string
+    count = path.length - 1
+    
+    if count == 1
+      "#{count.to_s.yellow} move"
+    else
+      "#{count.to_s.yellow} moves"
+    end
   end
 
   def path
@@ -32,9 +36,9 @@ class Knight
   end
 
   def print_path
-    puts "You made it from #{colorize_path[0]} to #{colorize_path[-1]} in #{count_moves}!"
-    colorize_path.each do |position|
-      unless position == colorize_path.last
+    print "The knight made it from #{colorized_path[0]} to #{colorized_path[-1]} in #{move_count_string}!\n\n"
+    colorized_path.each do |position|
+      unless position == colorized_path.last
         print "#{position} --> "
       else
         print "#{position}\n\n"
@@ -42,7 +46,7 @@ class Knight
     end
   end
 
-  def colorize_path
+  def colorized_path
     path.map do |position|
       if position == path.first
         position.to_s.red
